@@ -6,7 +6,7 @@ import { useLocation } from 'react-router-dom';
 
 const ApplyPage = () => {
   const apiBase = process.env.REACT_APP_API_URL; 
-  // e.g. https://innovate-production.up.railway.app
+  console.log('🏷 REACT_APP_API_URL =', apiBase);
 
   const [formData, setFormData] = useState({
     firstName: '',
@@ -30,7 +30,7 @@ const ApplyPage = () => {
   const [status, setStatus] = useState(null);
   const location = useLocation();
 
-  // Pre-fill position if routed from JobDetails
+  // Pre-fill position if navigated from JobDetails
   useEffect(() => {
     if (location.state?.position) {
       setFormData(prev => ({ ...prev, position: location.state.position }));
@@ -47,6 +47,8 @@ const ApplyPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log('📤 handleSubmit called with:', formData);
+    console.log('🌐 Posting to:', `${apiBase}/api/apply`);
     setStatus(null);
 
     try {
@@ -55,21 +57,34 @@ const ApplyPage = () => {
         data.append(key, val);
       });
 
-      await axios.post(
+      const res = await axios.post(
         `${apiBase}/api/apply`,
         data,
         { headers: { 'Content-Type': 'multipart/form-data' } }
       );
 
+      console.log('✅ Server response:', res.data);
       setStatus('✅ Application submitted successfully!');
       setFormData({
-        firstName: '', lastName: '', email: '', phone: '', position: '',
-        resume: null, cover: '', city: '', state: '', zipCode: '',
-        presentJob: '', country: '', gender: '', dateOfBirth: '',
-        poBox: '', verifiedEmail: ''
+        firstName: '',
+        lastName: '',
+        email: '',
+        phone: '',
+        position: '',
+        resume: null,
+        cover: '',
+        city: '',
+        state: '',
+        zipCode: '',
+        presentJob: '',
+        country: '',
+        gender: '',
+        dateOfBirth: '',
+        poBox: '',
+        verifiedEmail: '',
       });
     } catch (error) {
-      console.error('Submit error:', error);
+      console.error('❌ Submit error:', error.response || error);
       setStatus('❌ Submission failed. Please try again.');
     }
   };
@@ -123,10 +138,38 @@ const ApplyPage = () => {
 
           {/* Address & Details */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <input name="city" type="text" placeholder="City" value={formData.city} onChange={handleChange} className="bg-white/5 px-4 py-3 rounded-lg" />
-            <input name="state" type="text" placeholder="State" value={formData.state} onChange={handleChange} className="bg-white/5 px-4 py-3 rounded-lg" />
-            <input name="zipCode" type="text" placeholder="Zip Code" value={formData.zipCode} onChange={handleChange} className="bg-white/5 px-4 py-3 rounded-lg" />
-            <input name="country" type="text" placeholder="Country" value={formData.country} onChange={handleChange} className="bg-white/5 px-4 py-3 rounded-lg" />
+            <input
+              name="city"
+              type="text"
+              placeholder="City"
+              value={formData.city}
+              onChange={handleChange}
+              className="bg-white/5 px-4 py-3 rounded-lg"
+            />
+            <input
+              name="state"
+              type="text"
+              placeholder="State"
+              value={formData.state}
+              onChange={handleChange}
+              className="bg-white/5 px-4 py-3 rounded-lg"
+            />
+            <input
+              name="zipCode"
+              type="text"
+              placeholder="Zip Code"
+              value={formData.zipCode}
+              onChange={handleChange}
+              className="bg-white/5 px-4 py-3 rounded-lg"
+            />
+            <input
+              name="country"
+              type="text"
+              placeholder="Country"
+              value={formData.country}
+              onChange={handleChange}
+              className="bg-white/5 px-4 py-3 rounded-lg"
+            />
           </div>
 
           {/* Job & Verification */}
