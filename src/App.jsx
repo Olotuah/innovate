@@ -5,6 +5,7 @@ import Navbar from './components/Navbar';
 import AboutSection from './components/AboutSection';
 import Hero from './components/Hero';
 import AdminLogin from './pages/AdminLogin';
+import ProtectedRoute from './components/ProtectedRoute';
 import jobDescriptions from "./data/jobDescriptions";
 import Services from './components/Services';
 import ContactSection from './components/ContactSection';
@@ -61,14 +62,24 @@ const Home = () => {
 
 const App = () => (
   <Router>
-    <Routes>
-      <Route path="/" element={<Home />} />
-  <Route path="/apply" element={<ApplyPage />} />
-  <Route path="/admin-login" element={<AdminLogin />} />
-  <Route path="/admin" element={<AdminDashboard />} />
-  <Route path="/jobs/:title" element={<JobDetails />} />
-    </Routes>
-  </Router>
+  <Routes>
+    <Route path="/" element={<Home />} />
+    <Route path="/apply" element={<ApplyPage />} />
+    <Route path="/jobs/:title" element={<JobDetails />} />
+    <Route path="/admin-login" element={<AdminLogin />} />
+    
+    {/* Protected Route */}
+    <Route
+      path="/admin"
+      element={
+        <ProtectedRoute>
+          <AdminDashboard />
+        </ProtectedRoute>
+      }
+    />
+  </Routes>
+</Router>
+
 );
 
 export default App;

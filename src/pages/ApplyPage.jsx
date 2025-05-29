@@ -189,13 +189,21 @@ const ApplyPage = () => {
             onChange={handleChange}
             className="w-full bg-white/5 px-4 py-3 rounded-lg"
           />
-          <input
-            name="dateOfBirth"
-            type="date"
-            value={formData.dateOfBirth}
-            onChange={handleChange}
-            className="w-full bg-white/5 px-4 py-3 rounded-lg"
-          />
+          <div>
+  <label htmlFor="dateOfBirth" className="block text-sm mb-1 text-gray-300">
+    Date of Birth
+  </label>
+  <input
+    id="dateOfBirth"
+    name="dateOfBirth"
+    type="date"
+    value={formData.dateOfBirth}
+    onChange={handleChange}
+    className="w-full bg-white/5 px-4 py-3 rounded-lg"
+    required
+  />
+</div>
+
           <input
             name="poBox"
             type="text"

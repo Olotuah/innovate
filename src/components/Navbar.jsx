@@ -12,7 +12,7 @@ const Navbar = ({ onSignupClick, onScrollTo }) => {
   };
 
   return (
-    <nav className="mb-10 fixed top-0 w-full z-50 bg-black/20 backdrop-blur-md border-b border-white/10">
+    <nav className="fixed top-0 w-full z-50 bg-black/20 backdrop-blur-md border-b border-white/10">
       <div className="max-w-7xl mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2 cursor-pointer" onClick={() => onScrollTo('hero')}>
@@ -35,7 +35,7 @@ const Navbar = ({ onSignupClick, onScrollTo }) => {
             <button onClick={() => onScrollTo('careers')} className="hover:text-cyan-400 transition-colors">
               Careers
             </button>
-            <a href="/admin" className="hover:text-pink-400 transition-colors font-medium">
+            <a href="/admin-login" className="hover:text-pink-400 transition-colors font-medium">
               Admin
             </a>
             <button
@@ -67,7 +67,7 @@ const Navbar = ({ onSignupClick, onScrollTo }) => {
           <button onClick={() => handleNavClick('careers')} className="block w-full text-left text-white hover:text-cyan-400">
             Careers
           </button>
-          <a href="/admin" className="block w-full text-left text-white hover:text-pink-400">
+          <a href="/admin-login" className="block w-full text-left text-white hover:text-pink-400">
             Admin
           </a>
           <button

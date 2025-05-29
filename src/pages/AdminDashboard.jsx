@@ -6,18 +6,10 @@ import { Download, User } from 'lucide-react';
 
 const AdminDashboard = () => {
   const [applicants, setApplicants] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const apiBase = import.meta.env.VITE_API_URL;
 
-  useEffect(() => {
-    const token = localStorage.getItem('admin_token');
-    if (token !== 'verified') {
-      navigate('/admin-login');
-    } else {
-      setLoading(false); // Only render if verified
-    }
-  }, [navigate]);
 
   useEffect(() => {
     if (loading) return;
