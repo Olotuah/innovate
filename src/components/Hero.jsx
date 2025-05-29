@@ -14,7 +14,7 @@ const Hero = ({ onStartCreating, onWatchDemo }) => {
   }, []);
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <section className="relative pt-24 min-h-screen flex items-center justify-center overflow-hidden">
       {/* Animated Background Elements */}
       <div className="absolute inset-0">
         {[...Array(50)].map((_, i) => (
@@ -44,7 +44,7 @@ const Hero = ({ onStartCreating, onWatchDemo }) => {
       </div>
 
       {/* Hero Content */}
-      <div className="mt-12 relative z-10 text-center max-w-6xl mx-auto px-6">
+      <div className="relative z-10 text-center max-w-6xl mx-auto px-6">
         <div className={`transition-all duration-2000 ${isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
           <h1 className="text-6xl md:text-8xl font-bold mb-6 leading-tight">
             <span className="bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent animate-pulse">
