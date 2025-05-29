@@ -5,6 +5,9 @@ const multer = require('multer');
 const path = require('path');
 require('dotenv').config();
 
+const { storage } = require('./utils/cloudinary'); // 🌩️ Cloudinary storage
+const upload = multer({ storage });
+
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -12,7 +15,6 @@ app.use((req, res, next) => {
   res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
   next();
 });
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // MongoDB connection
 mongoose.connect(process.env.MONGO_URI, {
@@ -22,22 +24,12 @@ mongoose.connect(process.env.MONGO_URI, {
 .then(() => console.log('✅ MongoDB connected'))
 .catch((err) => console.error('❌ MongoDB error:', err.message));
 
-// Multer storage
-const storage = multer.diskStorage({
-  destination: 'uploads/',
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + '-' + file.originalname);
-  }
-});
-const upload = multer({ storage });
-
 // Import model
 const Application = require('./models/Application');
 
 // POST: Submit application
 app.post('/api/apply', upload.single('resume'), async (req, res) => {
   try {
-    // destructure all your form fields
     const {
       firstName, lastName, email, phone,
       position, cover,
@@ -46,8 +38,8 @@ app.post('/api/apply', upload.single('resume'), async (req, res) => {
       verifiedEmail
     } = req.body;
 
-    // file path
-    const resumePath = req.file ? `/uploads/${req.file.filename}` : '';
+    // Cloudinary resume URL
+    const resumeUrl = req.file ? req.file.path : '';
 
     const newApp = new Application({
       firstName,
@@ -65,7 +57,7 @@ app.post('/api/apply', upload.single('resume'), async (req, res) => {
       dateOfBirth,
       poBox,
       verifiedEmail,
-      resume: resumePath
+      resume: resumeUrl
     });
 
     await newApp.save();

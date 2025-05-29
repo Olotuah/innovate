@@ -51,12 +51,14 @@ const AdminDashboard = () => {
                   <span className="font-medium text-purple-400">Cover Letter:</span> {app.cover || 'N/A'}
                 </p>
                 <a
-                  href={`${apiBase}${app.resume}`}
-                  download
-                  className="inline-flex items-center px-4 py-2 bg-cyan-600 hover:bg-cyan-700 rounded-lg text-white text-sm font-medium"
-                >
-                  <Download className="w-4 h-4 mr-2" /> Download Resume
-                </a>
+  href={app.resume}
+  target="_blank"
+  rel="noopener noreferrer"
+  className="inline-flex items-center px-4 py-2 bg-cyan-600 hover:bg-cyan-700 rounded-lg text-white text-sm font-medium"
+>
+  <Download className="w-4 h-4 mr-2" /> Download Resume
+</a>
+
               </div>
             ))
           ) : (
