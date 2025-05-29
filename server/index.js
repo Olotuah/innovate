@@ -1,0 +1,90 @@
+const express = require('express');
+const mongoose = require('mongoose');
+const cors = require('cors');
+const multer = require('multer');
+const path = require('path');
+require('dotenv').config();
+
+const app = express();
+app.use(cors());
+app.use(express.json());
+app.use((req, res, next) => {
+  res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
+  next();
+});
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+// MongoDB connection
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+.then(() => console.log('✅ MongoDB connected'))
+.catch((err) => console.error('❌ MongoDB error:', err.message));
+
+// Multer storage
+const storage = multer.diskStorage({
+  destination: 'uploads/',
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + '-' + file.originalname);
+  }
+});
+const upload = multer({ storage });
+
+// Import model
+const Application = require('./models/Application');
+
+// POST: Submit application
+app.post('/api/apply', upload.single('resume'), async (req, res) => {
+  try {
+    // destructure all your form fields
+    const {
+      firstName, lastName, email, phone,
+      position, cover,
+      city, state, zipCode, presentJob,
+      country, gender, dateOfBirth, poBox,
+      verifiedEmail
+    } = req.body;
+
+    // file path
+    const resumePath = req.file ? `/uploads/${req.file.filename}` : '';
+
+    const newApp = new Application({
+      firstName,
+      lastName,
+      email,
+      phone,
+      position,
+      cover,
+      city,
+      state,
+      zipCode,
+      presentJob,
+      country,
+      gender,
+      dateOfBirth,
+      poBox,
+      verifiedEmail,
+      resume: resumePath
+    });
+
+    await newApp.save();
+    res.status(201).json({ message: 'Application submitted successfully!' });
+  } catch (err) {
+    console.error('Error saving application:', err);
+    res.status(500).json({ error: 'Failed to save application', details: err.message });
+  }
+});
+
+// GET: Admin dashboard (get all applicants)
+app.get('/api/applications', async (req, res) => {
+  try {
+    const apps = await Application.find().sort({ submittedAt: -1 });
+    res.json(apps);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch applications', details: err.message });
+  }
+});
+
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
