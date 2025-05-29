@@ -7,7 +7,7 @@ import { Download, User } from 'lucide-react';
 const AdminDashboard = () => {
   const [applicants, setApplicants] = useState([]);
   const navigate = useNavigate();
-  const apiBase = process.env.REACT_APP_API_URL; // e.g. https://your-railway-app.up.railway.app
+  const apiBase = import.meta.env.VITE_API_URL; // e.g. https://your-railway-app.up.railway.app
 
   useEffect(() => {
     const token = localStorage.getItem('admin_token');

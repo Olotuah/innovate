@@ -5,7 +5,7 @@ import { Shield } from 'lucide-react';
 import { useLocation } from 'react-router-dom';
 
 const ApplyPage = () => {
-  const apiBase = process.env.REACT_APP_API_URL; 
+  const apiBase = import.meta.env.VITE_API_URL; 
   console.log('🏷 REACT_APP_API_URL =', apiBase);
 
   const [formData, setFormData] = useState({
