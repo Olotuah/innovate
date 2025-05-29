@@ -65,14 +65,11 @@ const Services = ({ onStartCreating, onWatchDemo, onTryAIGen, onStartProject, ad
           </div>
         </div>
 
-        <div className="text-center">
-          <button onClick={onStartCreating} className="bg-gradient-to-r from-cyan-500 to-purple-600 px-8 py-4 rounded-full text-lg font-semibold">
-            Start Creating
-          </button>
-          <button onClick={onWatchDemo} className="ml-6 border border-white/30 px-8 py-4 rounded-full text-lg font-semibold hover:bg-white/10">
-            Watch Demo
-          </button>
-        </div>
+        <div className="flex flex-col md:flex-row items-center justify-center gap-4">
+  <button className="w-full md:w-auto …">Start Creating</button>
+  <button className="w-full md:w-auto …">Watch Demo</button>
+</div>
+
       </div>
     </section>
   );
