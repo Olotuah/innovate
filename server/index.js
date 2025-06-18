@@ -9,7 +9,12 @@ const { storage } = require('./utils/cloudinary'); // 🌩️ Cloudinary storage
 const upload = multer({ storage });
 
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: "https://innovate-jet.vercel.app",
+  credentials: true,
+  optionsSuccessStatus: 200
+}));
+
 app.use(express.json());
 app.use((req, res, next) => {
   res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
