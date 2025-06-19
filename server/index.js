@@ -9,11 +9,22 @@ const { storage } = require('./utils/cloudinary'); // 🌩️ Cloudinary storage
 const upload = multer({ storage });
 
 const app = express();
+const allowedOrigins = [
+  'http://localhost:5173',
+  'https://innovate-jet.vercel.app'
+];
+
 app.use(cors({
-  origin: "https://innovate-jet.vercel.app",
-  credentials: true,
-  optionsSuccessStatus: 200
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS: " + origin));
+    }
+  },
+  credentials: true
 }));
+
 
 app.use(express.json());
 app.use((req, res, next) => {
